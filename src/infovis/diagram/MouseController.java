@@ -32,9 +32,7 @@ public class MouseController implements MouseListener,MouseMotionListener {
      private boolean movingOverview = false;
 
 
-	/*
-	 * Getter And Setter
-	 */
+	// Getter And Setter Methods
 	 public Element getSelectedElement(){
 		 return selectedElement;
 	 }
@@ -50,9 +48,8 @@ public class MouseController implements MouseListener,MouseMotionListener {
 	public void setView(View diagramView) {
 		this.view = diagramView;
 	}
-	/*
-     * Implements MouseListener
-     */
+
+	//Mouse Listener
 	public void mouseClicked(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
@@ -128,7 +125,7 @@ public class MouseController implements MouseListener,MouseMotionListener {
 
 		if (movingSelector){
 		    movingSelector = false;
-            view.updateTranslation();
+            view.updatePosition();
         }
         else if (movingOverview){
 		    movingOverview = false;
@@ -181,8 +178,6 @@ public class MouseController implements MouseListener,MouseMotionListener {
                 groupRectangle = null;
             }
         }
-
-		view.repaint();
 	}
 	
 	public void mouseDragged(MouseEvent e) {

@@ -95,10 +95,10 @@ public class View extends JPanel{
 						tempR.getWidth() == overviewRect.getWidth())
 					selector.setRect(tempR);
 				else {
-					double xAdjust = selector.getWidth() - tempR.getWidth();
-					double yAdjust = selector.getHeight() - tempR.getHeight();
-					selector.setRect(selector.getX() - xAdjust, selector.getY() - yAdjust, selector.getWidth(), selector.getHeight());
-					updateTranslation();
+					double xChanges = selector.getWidth() - tempR.getWidth();
+					double yChanges = selector.getHeight() - tempR.getHeight();
+					selector.setRect(selector.getX() - xChanges, selector.getY() - yChanges, selector.getWidth(), selector.getHeight());
+					updatePosition();
 					//update the paint with new place of selector Rectangle
 					paint(g2D);
 				}
@@ -145,7 +145,7 @@ public class View extends JPanel{
 	
 	public void setScale(double scale) {
 		this.scale = scale;
-		updateTranslation();
+		updatePosition();
 	}
 	public double getScale(){
 		return scale;
@@ -163,8 +163,8 @@ public class View extends JPanel{
 		this.translateY = tansslateY;
 	}
 
-	public void updateTranslation(){
-		//derive from marker position (relative to overview) - utilise bounds checking in updateMarker function
+	public void updatePosition(){
+		//set the relative position of Selector
 		setTranslateX(-(selector.getX()-overviewTranslateX) / overviewDiagramScale * scale);
 		setTranslateY(-(selector.getY()-overviewTranslateY) / overviewDiagramScale * scale);
 	}
@@ -177,7 +177,7 @@ public class View extends JPanel{
 		}
 		
 		//Update the position of selector
-		updateTranslation();
+		updatePosition();
 	}
 	public void updateOverviewPosition(int x, int y){
 
