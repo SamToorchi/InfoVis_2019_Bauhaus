@@ -26,7 +26,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/InfoVis_Assignment_SS15$Diagram.coverage" NAME="Diagram Coverage Results" MODIFIED="1527274604006" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/InfoVis_Assignment_SS19$Diagram.coverage" NAME="Diagram Coverage Results" MODIFIED="1527274604006" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>infovis.diagram.*</FILTER>
     </SUITE>
   </component>
@@ -169,38 +169,38 @@
         <subPane>
           <expand>
             <path>
-              <item name="InfoVis_Assignment_SS15" type="b2602c69:ProjectViewProjectNode" />
-              <item name="InfoVis_Assignment_SS15" type="462c0819:PsiDirectoryNode" />
+              <item name="InfoVis_Assignment_SS19" type="b2602c69:ProjectViewProjectNode" />
+              <item name="InfoVis_Assignment_SS19" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="InfoVis_Assignment_SS15" type="b2602c69:ProjectViewProjectNode" />
-              <item name="InfoVis_Assignment_SS15" type="462c0819:PsiDirectoryNode" />
+              <item name="InfoVis_Assignment_SS19" type="b2602c69:ProjectViewProjectNode" />
+              <item name="InfoVis_Assignment_SS19" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="InfoVis_Assignment_SS15" type="b2602c69:ProjectViewProjectNode" />
-              <item name="InfoVis_Assignment_SS15" type="462c0819:PsiDirectoryNode" />
+              <item name="InfoVis_Assignment_SS19" type="b2602c69:ProjectViewProjectNode" />
+              <item name="InfoVis_Assignment_SS19" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="infovis" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="InfoVis_Assignment_SS15" type="b2602c69:ProjectViewProjectNode" />
-              <item name="InfoVis_Assignment_SS15" type="462c0819:PsiDirectoryNode" />
+              <item name="InfoVis_Assignment_SS19" type="b2602c69:ProjectViewProjectNode" />
+              <item name="InfoVis_Assignment_SS19" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="infovis" type="462c0819:PsiDirectoryNode" />
               <item name="diagram" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="InfoVis_Assignment_SS15" type="b2602c69:ProjectViewProjectNode" />
-              <item name="InfoVis_Assignment_SS15" type="462c0819:PsiDirectoryNode" />
+              <item name="InfoVis_Assignment_SS19" type="b2602c69:ProjectViewProjectNode" />
+              <item name="InfoVis_Assignment_SS19" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="infovis" type="462c0819:PsiDirectoryNode" />
               <item name="diagram" type="462c0819:PsiDirectoryNode" />
               <item name="elements" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="InfoVis_Assignment_SS15" type="b2602c69:ProjectViewProjectNode" />
-              <item name="InfoVis_Assignment_SS15" type="462c0819:PsiDirectoryNode" />
+              <item name="InfoVis_Assignment_SS19" type="b2602c69:ProjectViewProjectNode" />
+              <item name="InfoVis_Assignment_SS19" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="infovis" type="462c0819:PsiDirectoryNode" />
               <item name="diagram" type="462c0819:PsiDirectoryNode" />
@@ -246,7 +246,7 @@
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="InfoVis_Assignment_SS15" />
+      <module name="InfoVis_Assignment_SS19" />
       <envs />
     </configuration>
     <configuration name="Example" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -265,7 +265,7 @@
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="InfoVis_Assignment_SS15" />
+      <module name="InfoVis_Assignment_SS19" />
       <envs />
     </configuration>
     <configuration name="ParaCoords" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -284,7 +284,7 @@
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="InfoVis_Assignment_SS15" />
+      <module name="InfoVis_Assignment_SS19" />
       <envs />
     </configuration>
     <configuration name="Scatterplot" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -303,7 +303,7 @@
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="InfoVis_Assignment_SS15" />
+      <module name="InfoVis_Assignment_SS19" />
       <envs />
     </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
