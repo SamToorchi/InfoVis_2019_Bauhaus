@@ -151,7 +151,7 @@ public class MouseController implements MouseListener,MouseMotionListener {
                     model.removeVertices(groupedElements.getVertices());
 
                     Vertex groupVertex = new Vertex(groupRectangle.getCenterX(),groupRectangle.getCenterX());
-                    groupVertex.setColor(Color.ORANGE);
+                   // groupVertex.setColor(Color.ORANGE);
                     groupVertex.setGroupedElements(groupedElements);
                     model.addVertex(groupVertex);
 
@@ -162,7 +162,6 @@ public class MouseController implements MouseListener,MouseMotionListener {
                                 && groupRectangle.contains(edge.getTarget().getShape().getBounds2D())){
                             groupVertex.getGroupedElements().addEdge(edge);
                             Debug.p("add Edge to groupedElements");
-                            //iter.remove(); // Warum geht das nicht!
                         } else if (groupRectangle.contains(edge.getSource().getShape().getBounds2D())){
                             groupVertex.getGroupedElements().addEdge(edge);
                             newEdges.add(new Edge(groupVertex,edge.getTarget()));
@@ -186,14 +185,14 @@ public class MouseController implements MouseListener,MouseMotionListener {
 		double scale = view.getScale();
 
 		if (movingSelector){
-		    //update position of marker
+		    //update position of Selector
             view.updateMarker(x - (int)mouseOffsetX + (int)view.getSelector().getX(),
                     y - (int)mouseOffsetY + (int)view.getSelector().getY());
             mouseOffsetX = x;
             mouseOffsetY = y;
         }
         else if (movingOverview){
-		    //update position of overview window
+		    //update position Zoom Frame
             view.updateOverviewPosition(x - (int)mouseOffsetX , y - (int)mouseOffsetY);
             mouseOffsetX = x;
             mouseOffsetY = y;

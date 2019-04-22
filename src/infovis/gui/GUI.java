@@ -356,7 +356,6 @@ public class GUI {
 	private JPanel getView() {
 		if (view == null) {
 			view = new Diagram().getView();
-			//view = new Scatterplot().getView();
 		}
 		return view;
 	}
@@ -369,7 +368,7 @@ public class GUI {
 	private JButton getNewLabelButton() {
 		if (newLabelButton == null) {
 			newLabelButton = new JButton();
-			newLabelButton.setText("new Label");
+			//newLabelButton.setText("new Label");
 			newLabelButton.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent e) {
 					//MenuController.getMenuController().newLabel();
@@ -412,7 +411,7 @@ public class GUI {
 	private JToggleButton getDrawToggleButton() {
 		if (drawToggleButton == null) {
 			drawToggleButton = new JToggleButton();
-			drawToggleButton.setText("Edge Draw");
+			//drawToggleButton.setText("Edge Draw");
 			drawToggleButton.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					if (e.getStateChange() == ItemEvent.SELECTED){
@@ -434,7 +433,7 @@ public class GUI {
 	private JToggleButton getFisheyeToggleButton() {
 		if (fisheyeToggleButton == null) {
 			fisheyeToggleButton = new JToggleButton();
-			fisheyeToggleButton.setText("Fisheye");
+			fisheyeToggleButton.setText("Zoom here!");
 //			fisheyeToggleButton.addChangeListener(new javax.swing.event.ChangeListener() {
 			fisheyeToggleButton.addItemListener(new java.awt.event.ItemListener() {
 				
