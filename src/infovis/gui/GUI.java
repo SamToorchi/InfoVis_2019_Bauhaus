@@ -437,13 +437,15 @@ public class GUI {
 			fisheyeToggleButton.setText("Fisheye");
 //			fisheyeToggleButton.addChangeListener(new javax.swing.event.ChangeListener() {
 			fisheyeToggleButton.addItemListener(new java.awt.event.ItemListener() {
+				
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					if (e.getStateChange() == ItemEvent.SELECTED){
-						MenuController.getInstance().startFisheyeMode();
+						//MenuController.getInstance().startFisheyeMode();
 					}else if (e.getStateChange() == ItemEvent.DESELECTED){
-						MenuController.getInstance().stopFisheyeMode();
+						//MenuController.getInstance().stopFisheyeMode();
 					}
 				}
+				
 			});
 //				public void stateChanged(javax.swing.event.ChangeEvent e) {
 //					  AbstractButton abstractButton = (AbstractButton) e.getSource();

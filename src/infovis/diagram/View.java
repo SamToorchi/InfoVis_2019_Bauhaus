@@ -26,7 +26,7 @@ public class View extends JPanel{
 	private double overviewTranslateY=0;
 	private Rectangle2D selector = new Rectangle2D.Double(overviewTranslateX,overviewTranslateY,0,0);
 	private Rectangle2D overviewRect = new Rectangle2D.Double();
-	private boolean fisheye;
+
 
 
 
@@ -42,9 +42,6 @@ public class View extends JPanel{
 	public void setColor(Color color) {
 		this.color = color;
 	}
-	public void setFisheye(boolean shouldSetFisheye){
-		fisheye = shouldSetFisheye;
-	}
 
 	
 	public void paint(Graphics g) {
@@ -53,13 +50,6 @@ public class View extends JPanel{
 		// Anti-Aliasing for Border of Circles
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		g2D.clearRect(0, 0, getWidth(), getHeight());
-
-		if (fisheye){
-
-			paintDiagram(g2D);
-		}
-
-		else{
 
 			//main diagram
 			g2D.translate(translateX,translateY);
@@ -126,7 +116,6 @@ public class View extends JPanel{
 		}
 
 		
-	}
 	private void paintDiagram(Graphics2D g2D){
 		for (Element element: model.getElements()){
 			element.paint(g2D);
@@ -186,7 +175,8 @@ public class View extends JPanel{
 		if (overviewRect.contains(x, y, selector.getWidth(), selector.getHeight())){
 			selector.setRect(x, y, selector.getWidth(), selector.getHeight());
 		}
-
+		
+		//Update the position of selector
 		updateTranslation();
 	}
 	public void updateOverviewPosition(int x, int y){

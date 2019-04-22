@@ -72,10 +72,6 @@ public class Model {
 		elements.removeAll(list);
 	}
 	
-	public static int generateNewID(){
-		idCounter++;
-		return idCounter;
-	}
 	public void generateTestValues(){
 		addVertex(new Vertex(70,90));
     	addVertex(new Vertex(270,290));
@@ -87,6 +83,12 @@ public class Model {
     	addVertex(new Vertex(700,490));
 
 	}
+	
+	public static int generateNewID(){
+		idCounter++;
+		return idCounter;
+	}
+
 	public boolean isEmpty(){
 		return elements.isEmpty();
 	}

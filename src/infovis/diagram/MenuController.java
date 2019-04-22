@@ -25,10 +25,8 @@ public class MenuController {
 	public static MenuController getInstance(){
 		return getMenuController();    
 	}
-	
-	/*
-	 * getter und setter
-	 */
+
+	//getter and setter for MouseEvents
 	public MouseController getMouseControllerAddedToView() {
 		return mouseControllerAddedToView;
 	}
@@ -37,11 +35,11 @@ public class MenuController {
 			MouseController mouseControllerAddedToView) {
 		this.mouseControllerAddedToView = mouseControllerAddedToView;
 	}
+	
+	//singleTone Patern SWT
 	public Model getModel() {
 		return model;
-		/*
-		 * SingletonPattern Part1
-		 */}
+	}
 	public void setModel(Model modell) {
 		this.model = modell;
 	}
@@ -58,7 +56,6 @@ public class MenuController {
 		view.repaint();
 	}
 	public void newLabel(){
-		//Debug.print("MenuController.newLabel invoked");
 		Label l = new Label();
 		getModel().addLabel(l);
 		view.repaint();
@@ -68,7 +65,7 @@ public class MenuController {
 			infovis.diagram.elements.Element element = mouseControllerAddedToView.getSelectedElement();
 			element.setColor(Color.RED);
 		} catch (NullPointerException e) {
-			//Debug.print("None of the Elements has been selected.");
+			//
 		}
 		
 	}
@@ -83,15 +80,5 @@ public class MenuController {
 
 	public void stopEdgeDrawingMode() {
 		mouseControllerAddedToView.setDrawingEdges(false);
-	}
-	public void startFisheyeMode(){
-		//view.setModel(model.getModel(new Fisheye(), view));
-		mouseControllerAddedToView.setFisheyeMode(true);
-		//view.repaint();
-	}
-	public void stopFisheyeMode(){
-		//view.setModel(view.getModel().getBackModel());
-		mouseControllerAddedToView.setFisheyeMode(false);
-		//view.repaint();
 	}
 }
