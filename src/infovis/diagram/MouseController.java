@@ -27,7 +27,6 @@ public class MouseController implements MouseListener,MouseMotionListener {
 	 private boolean edgeDrawMode = false;
 	 private DrawingEdge drawingEdge = null;
 	 private GroupingRectangle groupRectangle;
-
 	 private boolean movingSelector = false;
      private boolean movingOverview = false;
 
@@ -143,7 +142,6 @@ public class MouseController implements MouseListener,MouseMotionListener {
                 for (Iterator<Vertex> iter = model.iteratorVertices(); iter.hasNext();) {
                     Vertex vertex = iter.next();
                     if (groupRectangle.contains(vertex.getShape().getBounds2D())){
-                        Debug.p("Vertex found");
                         groupedElements.addVertex(vertex);
                     }
                 }
@@ -151,7 +149,6 @@ public class MouseController implements MouseListener,MouseMotionListener {
                     model.removeVertices(groupedElements.getVertices());
 
                     Vertex groupVertex = new Vertex(groupRectangle.getCenterX(),groupRectangle.getCenterX());
-                   // groupVertex.setColor(Color.ORANGE);
                     groupVertex.setGroupedElements(groupedElements);
                     model.addVertex(groupVertex);
 
