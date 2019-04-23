@@ -60,15 +60,7 @@ public class MenuController {
 		getModel().addLabel(l);
 		view.repaint();
 	}
-	public void setColor(){
-		try {
-			infovis.diagram.elements.Element element = mouseControllerAddedToView.getSelectedElement();
-			element.setColor(Color.RED);
-		} catch (NullPointerException e) {
-			//
-		}
-		
-	}
+
 	public void setScale(double scale){
 		view.setScale(scale);
 		view.repaint();

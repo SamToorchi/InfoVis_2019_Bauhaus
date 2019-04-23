@@ -74,6 +74,7 @@ public class Model {
 	
 	public void generateTestValues(){
 		addVertex(new Vertex(70,90));
+		addVertex(new Vertex(200,120));
     	addVertex(new Vertex(270,290));
     	addVertex(new Vertex(270,230));
     	addVertex(new Vertex(210,290));
