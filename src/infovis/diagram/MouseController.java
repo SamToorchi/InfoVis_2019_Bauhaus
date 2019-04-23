@@ -8,8 +8,6 @@ import infovis.diagram.elements.GroupingRectangle;
 import infovis.diagram.elements.None;
 import infovis.diagram.elements.Vertex;
 
-
-import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -93,7 +91,7 @@ public class MouseController implements MouseListener,MouseMotionListener {
 		int y = e.getY();
 		double scale = view.getScale();
 
-		if (view.markerContains(x,y)){
+		if (view.selectorContains(x,y)){
 		    movingSelector = true;
 		    mouseOffsetX = x;
 		    mouseOffsetY = y;
@@ -190,7 +188,7 @@ public class MouseController implements MouseListener,MouseMotionListener {
         }
         else if (movingOverview){
 		    //update position Zoom Frame
-            view.updateOverviewPosition(x - (int)mouseOffsetX , y - (int)mouseOffsetY);
+            view.updateSelectorPosition(x - (int)mouseOffsetX , y - (int)mouseOffsetY);
             mouseOffsetX = x;
             mouseOffsetY = y;
 
@@ -229,3 +227,4 @@ public class MouseController implements MouseListener,MouseMotionListener {
 	
     
 }
+

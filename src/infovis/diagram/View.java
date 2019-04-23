@@ -22,9 +22,9 @@ public class View extends JPanel{
 	private double translateX=0;
 	private double translateY=0;
 	//Position of Zoom Frame
-	private double overviewTranslateX=0;
-	private double overviewTranslateY=0;
-	private Rectangle2D selector = new Rectangle2D.Double(overviewTranslateX,overviewTranslateY,0,0);
+	private double selectorTranslateX=0;
+	private double selectorTranslateY=0;
+	private Rectangle2D selector = new Rectangle2D.Double(selectorTranslateX,selectorTranslateY,0,0);
 	private Rectangle2D overviewRect = new Rectangle2D.Double();
 
 
@@ -59,31 +59,33 @@ public class View extends JPanel{
 			g2D.scale(1/scale,1/scale);
 			g2D.translate(-translateX,-translateY);
 			//reset translation and scale for Zoom Frame
-			//g2D.translate(-overviewTranslateX,-overviewTranslateX);
+			//g2D.translate(selectorTranslateX,selectorTranslateY);
 
 
 			
 			//set dimensions of Zoom Frame  for Default Scale
-			overviewRect = new Rectangle2D.Double(overviewTranslateX,overviewTranslateY,getWidth()*overviewBoxScale, getHeight()*overviewBoxScale);
+			overviewRect = new Rectangle2D.Double(selectorTranslateX,selectorTranslateY,getWidth()*overviewBoxScale, getHeight()*overviewBoxScale);
 			//complementary colors for Background
 			g2D.setColor(new Color(0xbcb88f));
 			g2D.fill(overviewRect);
 			//add Border Color of Zoom Frame
 			g2D.setColor(new Color(0xff3e9172));
+			//set Border Stroke of ZoomFrame
+			g2D.setStroke(new BasicStroke(3));
 			g2D.draw(overviewRect);
 
 			
 			// Zoom Frame set Scale  
-			double[] limits = getDiagramLimits();
-			g2D.translate(overviewTranslateX, overviewTranslateY);
-			overviewDiagramScale = Math.min((overviewRect.getWidth())/ limits[0],
-					(overviewRect.getHeight())/ limits[1]);
+			double[] limt = getDiagramlimt();
+			g2D.translate(selectorTranslateX, selectorTranslateY);
+			overviewDiagramScale = Math.min((overviewRect.getWidth())/ limt[0],
+					(overviewRect.getHeight())/ limt[1]);
 			g2D.scale(overviewDiagramScale, overviewDiagramScale);
 			paintDiagram(g2D);
 
 			//set in Zoom Frame the visible Area
 			g2D.scale(1/ overviewDiagramScale,1/ overviewDiagramScale);
-			g2D.translate(-overviewTranslateX, -overviewTranslateY);
+			g2D.translate(-selectorTranslateX, -selectorTranslateY);
 
 			//create rectangle to show the visible Area in Zoom Frame
 			selector = new Rectangle2D.Double(selector.getX(),selector.getY(),getWidth()/scale* overviewDiagramScale,getHeight()/scale* overviewDiagramScale);
@@ -122,10 +124,10 @@ public class View extends JPanel{
 		}
 	}
 
-	private double[] getDiagramLimits(){
-
-		double xLimit = 0;
-		double yLimit = 0;
+	//Zoom Frame cannot leave the diagram
+	private double[] getDiagramlimt(){
+		double xLimit = 50;
+		double yLimit = 50;
 		for (Element element : model.getElements()){
 			if (element.getX() > xLimit)
 				xLimit = element.getX();
@@ -138,8 +140,8 @@ public class View extends JPanel{
 		xLimit += offset;
 		yLimit += offset;
 
-		double[] limits = {xLimit, yLimit};
-		return limits;
+		double[] limt = {xLimit, yLimit};
+		return limt;
 		
 	}
 	
@@ -165,8 +167,8 @@ public class View extends JPanel{
 
 	public void updatePosition(){
 		//set the relative position of Selector
-		setTranslateX(-(selector.getX()-overviewTranslateX) / overviewDiagramScale * scale);
-		setTranslateY(-(selector.getY()-overviewTranslateY) / overviewDiagramScale * scale);
+		setTranslateX(-(selector.getX()-selectorTranslateX) / overviewDiagramScale * scale);
+		setTranslateY(-(selector.getY()-selectorTranslateY) / overviewDiagramScale * scale);
 	}
 	public void updateMarker(int x, int y){
 
@@ -179,14 +181,13 @@ public class View extends JPanel{
 		//Update the position of selector
 		updatePosition();
 	}
-	public void updateOverviewPosition(int x, int y){
-
+	public void updateSelectorPosition(int x, int y){
 
 		//check validity
 		if (new Rectangle2D.Double(0,0,getWidth(),getHeight())
-				.contains(overviewTranslateX+x,overviewTranslateY+y,overviewRect.getWidth(),overviewRect.getHeight())){
-			overviewTranslateX += x;
-			overviewTranslateY += y;
+				.contains(selectorTranslateX+x,selectorTranslateY+y,overviewRect.getWidth(),overviewRect.getHeight())){
+			selectorTranslateX += x;
+			selectorTranslateY += y;
 
 			//update marker as well
 			selector.setRect(selector.getX() + x, selector.getY() + y, selector.getWidth(), selector.getHeight());
@@ -195,7 +196,7 @@ public class View extends JPanel{
 	public Rectangle2D getSelector(){
 		return selector;
 	}
-	public boolean markerContains(int x, int y){
+	public boolean selectorContains(int x, int y){
 		return selector.contains(x, y);
 	}
 	public boolean overviewContains(int x, int y) {return overviewRect.contains(x,y);}
