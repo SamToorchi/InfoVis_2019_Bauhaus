@@ -36,8 +36,8 @@ public class Vertex implements Element {
 		this.id = vertex.getID();
 	}
 	public Vertex(double x, double y, double width, double height){
-		centerX = x;
-		centerY = y;
+		centerX = 30;
+		centerY = 30;
 		this.shape =  new Ellipse2D.Double(centerX-width/2,centerY-height/2,width,height);
 		this.id = Model.generateNewID();
 	}

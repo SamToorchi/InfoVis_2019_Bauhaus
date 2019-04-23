@@ -22,7 +22,7 @@ public class MouseController implements MouseListener,MouseMotionListener {
 	 private Element selectedElement = new None();
 	 private double mouseOffsetX;
 	 private double mouseOffsetY;
-	 private boolean edgeDrawMode = false;
+	 private boolean drawEdgesMode = false;
 	 private DrawingEdge drawingEdge = null;
 	 private GroupingRectangle groupRectangle;
 	 private boolean movingSelector = false;
@@ -47,14 +47,14 @@ public class MouseController implements MouseListener,MouseMotionListener {
 	}
 
 	//Mouse Listener
-	public void mouseClicked(MouseEvent e) {
-		int x = e.getX();
-		int y = e.getY();
+	public void mouseClicked(MouseEvent event) {
+		int x = event.getX();
+		int y = event.getY();
 		double scale = view.getScale();
 		
 		
 		
-		if (e.getButton() == MouseEvent.BUTTON3){
+		if (event.getButton() == MouseEvent.BUTTON3){
 			// add element to the model
 			Vertex groupVertex = (Vertex)getElementContainingPosition(x/scale,y/scale);
 			for (Iterator<Vertex> iter = groupVertex.getGroupedElements().iteratorVertices();iter.hasNext();){
@@ -84,11 +84,11 @@ public class MouseController implements MouseListener,MouseMotionListener {
 	public void mouseExited(MouseEvent arg0) {
 		//no need now
 	}
-	public void mousePressed(MouseEvent e) {
+	public void mousePressed(MouseEvent event) {
 		//need for move the selector
 		//get position of mouse and give it to view to update paint and reposition of selector
-		int x = e.getX();
-		int y = e.getY();
+		int x = event.getX();
+		int y = event.getY();
 		double scale = view.getScale();
 
 		if (view.selectorContains(x,y)){
@@ -102,7 +102,7 @@ public class MouseController implements MouseListener,MouseMotionListener {
             mouseOffsetY = y;
         }
 	   
-        else if (edgeDrawMode){
+        else if (drawEdgesMode){
             drawingEdge = new DrawingEdge((Vertex)getElementContainingPosition(x/scale,y/scale));
             model.addElement(drawingEdge);
         }
@@ -174,9 +174,9 @@ public class MouseController implements MouseListener,MouseMotionListener {
         }
 	}
 	
-	public void mouseDragged(MouseEvent e) {
-		int x = e.getX();
-		int y = e.getY();
+	public void mouseDragged(MouseEvent event) {
+		int x = event.getX();
+		int y = event.getY();
 		double scale = view.getScale();
 
 		if (movingSelector){
@@ -193,22 +193,23 @@ public class MouseController implements MouseListener,MouseMotionListener {
             mouseOffsetY = y;
 
         }
-		else if (edgeDrawMode){
-			drawingEdge.setX(e.getX());
-			drawingEdge.setY(e.getY());
+		else if (drawEdgesMode){
+			drawingEdge.setX(event.getX());
+			drawingEdge.setY(event.getY());
 		}
 		else if(selectedElement != null){
-			selectedElement.updatePosition((e.getX()-mouseOffsetX)/scale, (e.getY()-mouseOffsetY) /scale);
+			selectedElement.updatePosition((event.getX()-mouseOffsetX)/scale, (event.getY()-mouseOffsetY) /scale);
 		}
 		view.repaint();
 	}
-	public void mouseMoved(MouseEvent e) {
+	public void mouseMoved(MouseEvent event) {
+		//no need now
 	}
 	public boolean isDrawingEdges() {
-		return edgeDrawMode;
+		return drawEdgesMode;
 	}
 	public void setDrawingEdges(boolean drawingEdges) {
-		this.edgeDrawMode = drawingEdges;
+		this.drawEdgesMode = drawingEdges;
 	}
 	
 	
