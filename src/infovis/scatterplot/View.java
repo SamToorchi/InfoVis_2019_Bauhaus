@@ -29,7 +29,7 @@ public class View extends JPanel {
         private Color selektiert_Point_Color = new Color(0xffff0000);
         
         //Grau - Hintergrundfarbe
-        private Color Hintergrund_Farbe = new Color(0xffdddddd);
+        private Color Hintergrund_Farbe = new Color(0xFFFFFFFF);
 
 
         //model inizialisieren
