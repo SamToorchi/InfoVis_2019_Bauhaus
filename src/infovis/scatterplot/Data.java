@@ -54,6 +54,7 @@ public class Data{
 		this.color = color;
 	}
 	
+	//Die Werte für jedes Label in eckigen Klammern einpacken und die Daten mit Klammern trennen
 	public String toString(){
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer.append(label);

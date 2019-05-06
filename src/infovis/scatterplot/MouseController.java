@@ -25,15 +25,15 @@ public class MouseController implements MouseListener, MouseMotionListener {
 		int y = arg0.getY();
 
 		//turn on marker
-		view.setMarkerVisibility(true);
-		view.getMarkerRectangle().setRect(x,y,0,0);
+		view.setSelektorSichtbarkeit(true);
+		view.getSelektor().setRect(x,y,0,0);
 		view.repaint();
 	}
 
 	public void mouseReleased(MouseEvent arg0) {
 
 		//no need for marker any more
-		view.setMarkerVisibility(false);
+		view.setSelektorSichtbarkeit(false);
 		view.repaint();
 	}
 
@@ -42,8 +42,8 @@ public class MouseController implements MouseListener, MouseMotionListener {
 		int y = arg0.getY();
 
 		//resize marker here
-		Rectangle2D mrkr = view.getMarkerRectangle();
-		view.setMarkerRectangle(new Rectangle2D.Double(mrkr.getX(), mrkr.getY(),x - mrkr.getX(), y - mrkr.getY()));
+		Rectangle2D mrkr = view.getSelektor();
+		view.setSelektor(new Rectangle2D.Double(mrkr.getX(), mrkr.getY(),x - mrkr.getX(), y - mrkr.getY()));
 
 		view.repaint();
 	}
