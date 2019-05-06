@@ -1,11 +1,9 @@
 package infovis.scatterplot;
 
-import infovis.debug.Debug;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -13,6 +11,7 @@ import javax.swing.JPanel;
 public class View extends JPanel {
 	     private Model model = null;
 
+	     // Selektor inizialisiern und verstecken
 	     private Rectangle2D markerRectangle = new Rectangle2D.Double(0,0,0,0);
          private Rectangle2D matrixRectangle = new Rectangle2D.Double(0,0,0,0);
 	     private boolean markerVisible = false;
@@ -20,75 +19,96 @@ public class View extends JPanel {
         private int X_LABEL_SPACE;
         private int Y_LABEL_SPACE;
         private int PLOT_SIZE;
-        private final double PLOT_OFFSET_FACTOR = 0.1;
+        //Offset Faktor der Punkte
+        private final double PLOT_OFFSET_FACTOR = 0.2;
 
+        //Schwarz - normale Punkte
         private Color DEF_POINT_COL = new Color(0xff000000);
+        
+        //Rot - selektierte Punkte
         private Color LINKED_POINT_COL = new Color(0xffff0000);
+        
+        //Grau - Hintergrundfarbe
         private Color BG_COLOR = new Color(0xffdddddd);
 
 
+        //model inizialisieren
         public void setModel(Model model) {
         this.model = model;
         }
+        //Funktionsaufruf für MouseController
         public Rectangle2D getMarkerRectangle() {
                 return markerRectangle;
-            }
-        public void setMarkerVisibility(boolean isVisible){markerVisible = isVisible;}
+        }
+        
+        //Sichtbarkeit der Selektor von false ändern
+        public void setMarkerVisibility(boolean isVisible){
+        	markerVisible = isVisible;
+        }
 
         public void setMarkerRectangle(Rectangle2D r) {
-
-            // allow drawing left and upwards
-            // adjust x and y to account for negative w an h
+        	//erlauben den Selektor nach links und rechts zu zeichnen:
+        	//Bereiche kleiner als null: Start mit Bereite + X-Position, 
+        	//Weite der Selektor - Weite der Matrix, nur Höhe der Matrix 
+        	//weil nur die Zeichnung auf die horizontale Achse ist 
             if (r.getWidth() < 0){
                 r = new Rectangle2D.Double(r.getX() + r.getWidth(), r.getY(),
                         markerRectangle.getWidth()-r.getWidth(), r.getHeight());
             }
+            //erlauben den Selektor nach oben und unten zu zeichnen:
+            //nur Position auf die Horizontale, Y-Position + Hohe der Matrix, Weite der Matrix, Höhe des
+            //Selektors - Höhe der Matrix
             if (r.getHeight() < 0){
                 r = new Rectangle2D.Double(r.getX(), r.getY() + r.getHeight(),
                         r.getWidth(), markerRectangle.getHeight()-r.getHeight());
             }
 
-            //check marker is within matrix
+            //Wenn Selektor sich in dem Matrix befindet:
             if (!matrixRectangle.contains(r))
                 return;
 
-            //check that marker stays within one cell
+            //Selektor darf die Matrix nicht verlassen
             int[] cell1 = cell_containing_point(r.getX(), r.getY());
             int[] cell2 = cell_containing_point(r.getX() + r.getWidth(), r.getY() + r.getHeight());
-            if (cell1[0] != cell2[0]
-                    || cell1[1] != cell2[1]){
+            if (cell1[0] != cell2[0] || cell1[1] != cell2[1]){
                 return;
             }
 
-            //TODO consider extending rectangle to follow cursor even when outside cell
-
-            //set rectangle
             markerRectangle = r;
 
-            //mark necessary points
+            //Punkte Markieren
             brushAndLink(markerRectangle, cell1);
 
         }
 		 
+        //Methoden von paint überschreiben
 		@Override
 		public void paint(Graphics g) {
 
-
-
+			//Anzahl der Matrizen sind Anzahl der Labels
             final int NUM_KEYS = model.getLabels().size();
+            //Radius der Punkte
             final int POINT_RADIUS = 2;
+            //Aufteilung der Label auf die X-Achse in Abhängigkeit von der Fenstergröße (aller 12%)
             X_LABEL_SPACE = (int)(getWidth() * 0.12);
+            //Aufteilung der Label auf die Y-Achse in Abhängigkeit von der Fenstergröße (aller 10%)
             Y_LABEL_SPACE = (int)(getHeight() * 0.1);
-            PLOT_SIZE = Math.min((getWidth() - X_LABEL_SPACE) / NUM_KEYS, (getHeight() - Y_LABEL_SPACE) / NUM_KEYS);
+            //Größe des gesamten Plots
+            PLOT_SIZE = Math.min((getWidth() - X_LABEL_SPACE + 500) / NUM_KEYS, (getHeight() - Y_LABEL_SPACE) / NUM_KEYS);
+            
+            //Matrix - Größe
             matrixRectangle = new Rectangle2D.Double(X_LABEL_SPACE,Y_LABEL_SPACE,PLOT_SIZE * NUM_KEYS,PLOT_SIZE * NUM_KEYS);
 
+            //Zeichnen
             Graphics2D g2D = (Graphics2D) g;
             g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 
-            //labels
-            Font font = new Font("Serif", Font.PLAIN, Y_LABEL_SPACE/5);
-            g2D.setFont(font);
+            //Beschriftung jedes Labels
+            Font schriftart = new Font("sansserif", Font.BOLD, 12);
+            g2D.setFont(schriftart);
+            //Labels aus der Model lesen
             ArrayList<String> labels = model.getLabels();
+            //Labels erzeugen
             for (int i = 0; i < NUM_KEYS; i++){
                 String label = labels.get(i);
                 //x label
@@ -99,20 +119,19 @@ public class View extends JPanel {
 
             }
 
+            /*
+             * Überschrift
             font = new Font("Serif", Font.PLAIN, (int)(Y_LABEL_SPACE/2));
             g2D.setFont(font);
             g2D.drawString("Scatter Plot Matrix", (int)(getWidth() * 0.3), (int)(getHeight()* 0.06));
+             */
 
-            //frame
             for (int x = 0; x < NUM_KEYS; x++){
                 for (int y = 0; y < NUM_KEYS; y++) {
 
-                    if (x==y)
-                        g2D.setColor(new Color(0xffbbbbbb));
-                    else
                         g2D.setColor(BG_COLOR);
 
-
+                        //Matrizen mit der Hintergrund und festgelegte Größe zeichnen
                     g2D.fillRect(X_LABEL_SPACE + (x*PLOT_SIZE), Y_LABEL_SPACE + (y*PLOT_SIZE),
                             PLOT_SIZE, PLOT_SIZE);
                     g2D.setColor(new Color(0xff000000));
@@ -121,25 +140,31 @@ public class View extends JPanel {
                 }
             }
 
-            //for each data point
+            //jeden Punkt zeichnen
             for (Data d : model.getList()){
 
                 g2D.setColor(d.getColor());
 
-                //for each label on x and y axis
-                for (int x = 0; x < NUM_KEYS; x++) {
-                    for (int y = 0; y < NUM_KEYS; y++) {
+                //für jedes Label auf der x- und y- Achse
+                for (int y = 0; y < NUM_KEYS; y++) {
+                	for (int x = 0; x < NUM_KEYS; x++) {
 
-                        //calculate offset for each graph
-                        int plot_offset_x = X_LABEL_SPACE + (x * PLOT_SIZE);//to left of plot
-                        int plot_offset_y = Y_LABEL_SPACE + ((y+1) * PLOT_SIZE);//to bottom of plot
-                        //get data values
-                        double x_val = d.getValues()[x];
+
+                        //Offsets berechnen
+                        int plot_offset_y = Y_LABEL_SPACE + ((y+1) * PLOT_SIZE);//von unten
+                        int plot_offset_x = X_LABEL_SPACE + (x * PLOT_SIZE);//von links
+
+                        //Werte auf den Daten ablesen
                         double y_val = d.getValues()[y];
-                        //calc correct position
-                        double final_x = plot_offset_x + (getPointOffsetForRange(x_val,  model.getRanges().get(x)) * PLOT_SIZE);
+                        double x_val = d.getValues()[x];
+
+                        
+                        //positionen berechnen
                         double final_y = plot_offset_y - (getPointOffsetForRange(y_val,  model.getRanges().get(y)) * PLOT_SIZE);
-                        //draw
+                        double final_x = plot_offset_x + (getPointOffsetForRange(x_val,  model.getRanges().get(x)) * PLOT_SIZE);
+                        
+                        
+                        //Zeichnen
                         g2D.fill(new Ellipse2D.Double(final_x - POINT_RADIUS, final_y - POINT_RADIUS,
                                 2*POINT_RADIUS, 2*POINT_RADIUS));
 
@@ -148,44 +173,44 @@ public class View extends JPanel {
 
             }
 
-            //render marker rectangle
+            //Farbe der Marker definieren, wenn visibility auf visible ist           
             if (markerVisible){
-                g2D.setColor(new Color(0xff0099ff));
+                g2D.setColor(new Color(0xFF008000));
                 g2D.draw(markerRectangle);
-            }
-
+            } 
 		}
 
-		//changes the colour attribute of data points contained within a rectangle
+		//Brush und Link, um die Farbe der zusammenhängenden Daten (Punkte) in rot zu setzen
 		private void brushAndLink(Rectangle2D marker, int[] cell_coords){
-
-            //get accepted ranges for points
+            //akzeptierte Bereiche für Punkte festlegen
             double minX,maxX,minY,maxY;
             double[] minPoint = getDataValuesForAbsPoint(marker.getX(),
                     marker.getY() + marker.getHeight(), cell_coords[0], cell_coords[1]);
             double[] maxPoint = getDataValuesForAbsPoint(marker.getX() + marker.getWidth(),
                     marker.getY(), cell_coords[0], cell_coords[1]);
 
-            //compare all data to those ranges
+            //Vergleichen alle Daten mit diesen Bereichen
             for (Data d : model.getList()){
 
+            	//Werte in jedem Matrix speichern
                 double data_x = d.getValues()[cell_coords[0]];
                 double data_y = d.getValues()[cell_coords[1]];
 
-                //check x dimension
+                //x-Werte überprüfen
                 if (data_x < minPoint[0] || data_x > maxPoint[0]){
-                    //out of range - set non highlighted
+                    //alles was außerhalb des Bereichs ist, wird nicht markiert
                     d.setColor(DEF_POINT_COL);
                     continue;
                 }
 
+              //y-Werte überprüfen
                 if (data_y < minPoint[1] || data_y > maxPoint[1]){
-                    //out of range - set non highlighted
+                    //alles was außerhalb des Bereichs ist, wird nicht markiert
                     d.setColor(DEF_POINT_COL);
                     continue;
                 }
 
-                //otherwise - in range, set highlighted
+                //ansonsten die Daten (Punkte markieren)
                 d.setColor(LINKED_POINT_COL);
 
             }

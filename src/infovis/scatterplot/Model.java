@@ -89,28 +89,26 @@ public class Model {
 				 
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} // end while 
+			} // Ende while 
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		for (String l : labels) {
-//			Debug.print(l);
-//			Debug.print(",  ");
-//			Debug.println("");
-//		}
-//		for (Range range : ranges) {
-//			Debug.print(range.toString());
-//			Debug.print(",  ");
-//			Debug.println("");
-//		}
-//		for (Data d : list) {
-//			Debug.print(d.toString());
-//			Debug.println("");
-//		}
+		for (String l : labels) {
+			Debug.print(l);
+			Debug.print(",  ");
+			Debug.println("");
+		}
+		for (Range range : ranges) {
+			Debug.print(range.toString());
+			Debug.print(",  ");
+			Debug.println("");
+		}
+		for (Data d : list) {
+			Debug.print(d.toString());
+			Debug.println("");
+		}
 		
 	}
     
