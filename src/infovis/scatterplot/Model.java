@@ -57,34 +57,36 @@ public class Model {
 	   
 	    try {
 	    	 String thisLine = null;
-	    	 BufferedReader br = new BufferedReader(new FileReader(file));
+	    	 BufferedReader bufferreader = new BufferedReader(new FileReader(file));
 	         try {
-	        	 //Import Labels
-	        	 thisLine = br.readLine();
+	        	 //Labels mit ; trennen
+	        	 thisLine = bufferreader.readLine();
 				 String l [] = thisLine.split(";");
-				 for (int i = 1; i < l.length; i++) labels.add(l[i]); // import labels excluding name
+				 
+				// die Name der Labels in model speichern
+				 for (int i = 1; i < l.length; i++) labels.add(l[i]); 
 				 setDim(l.length-1);
 				 
-				  // Prepare Ranges
-				 double lowRanges [] = new double[l.length-1];
-				 for (int i = 0; i < lowRanges.length; i++) lowRanges[i] = Double.MAX_VALUE;
-				 double highRanges [] = new double[lowRanges.length];
-			     for (int i = 0; i < highRanges.length; i++) highRanges[i] = Double.MIN_VALUE;
+				  // Minimum value und maximum value festlegen
+				 double minRange [] = new double[l.length-1];
+				 for (int i = 0; i < minRange.length; i++) minRange[i] = Double.MAX_VALUE;
+				 double maxRange [] = new double[minRange.length];
+			     for (int i = 0; i < maxRange.length; i++) maxRange[i] = Double.MIN_VALUE;
 	        	 
 	        	 // Import Data and adapt Ranges
-				 while ((thisLine = br.readLine()) != null) { // while loop begins here
+				 while ((thisLine = bufferreader.readLine()) != null) { // while loop begins here
 					 String values [] = thisLine.split(";");
 					 double dValues [] = new double[values.length -1];
 					 
 					 for (int j =1; j < values.length; j++) {
 						 dValues[j-1] = Double.parseDouble(values[j]);
-						 if (dValues[j-1] <  lowRanges[j-1]) lowRanges[j-1] = dValues[j-1];
-						 if (dValues[j-1] >  highRanges[j-1]) highRanges[j-1] = dValues[j-1];
+						 if (dValues[j-1] <  minRange[j-1]) minRange[j-1] = dValues[j-1];
+						 if (dValues[j-1] >  maxRange[j-1]) maxRange[j-1] = dValues[j-1];
 					 }	
 					 list.add(new Data(dValues, values[0]));
 	   			}
-				for (int i = 0; i < highRanges.length; i++) {
-					ranges.add(new Range(lowRanges[i],highRanges[i]));
+				for (int i = 0; i < maxRange.length; i++) {
+					ranges.add(new Range(minRange[i],maxRange[i]));
 				} 
 				 
 				
@@ -95,6 +97,7 @@ public class Model {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+	    /* Prints */
 		for (String l : labels) {
 			Debug.print(l);
 			Debug.print(",  ");
