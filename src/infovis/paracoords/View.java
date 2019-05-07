@@ -29,10 +29,12 @@ public class View extends JPanel {
 	private int INVERT_BTN_TOP;
 	private int INVERT_BTN_SIZE;
 
+	//Überschreiben der paint-Methoden
 	@Override
 	public void paint(Graphics g) {
 
 		Graphics2D g2D = (Graphics2D) g;
+		//Aktivierung der Anti-Aliasing
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 
 

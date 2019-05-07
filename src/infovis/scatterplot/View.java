@@ -94,7 +94,7 @@ public class View extends JPanel {
             //Aufteilung der Label auf die Y-Achse in Abhängigkeit von der Fenstergröße (aller 10%)
             Y_Label_Abstand = (int)(getHeight() * 0.1);
             //Größe des gesamten Plots
-            PLOT_Groesse = Math.min((getWidth() - X_Label_Abstand + 500) / Anzahl_Attr, (getHeight() - Y_Label_Abstand) / Anzahl_Attr);
+            PLOT_Groesse = Math.min((getWidth() - X_Label_Abstand) / Anzahl_Attr , (getHeight() - Y_Label_Abstand + 2) / Anzahl_Attr);
             
             //Matrix - Größe
             matrixRechtecke = new Rectangle2D.Double(X_Label_Abstand,Y_Label_Abstand,PLOT_Groesse * Anzahl_Attr,PLOT_Groesse * Anzahl_Attr);
