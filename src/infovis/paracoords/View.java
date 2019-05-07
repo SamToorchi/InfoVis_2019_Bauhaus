@@ -37,7 +37,7 @@ public class View extends JPanel {
 		//Aktivierung der Anti-Aliasing
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 
-
+		
 		final int X_PADDING = (int)(getWidth() * 0.1);
 		Y_PADDING_TOP = (int)(getHeight() * 0.15);
 		Y_PADDING_BOTTOM = (int)(getHeight() * 0.1);
@@ -63,12 +63,8 @@ public class View extends JPanel {
 		}
 		//update order that parallel axes should be drawn in
 		axis_order = getAxisOrder(axis_x_rel_pos);
-
-		//title
-		Font title_font = new Font("Serif", Font.PLAIN, (int)(Y_PADDING_TOP/2));
-		g2D.setFont(title_font);
-		g2D.drawString("Parallel Co-ordinates", (int)(getWidth() * 0.28), (int)(getHeight()* 0.06));
-
+		
+		
 		//draw axes and labels
 		ArrayList<Range> ranges = model.getRanges();
 		Font att_font = new Font("Serif", Font.PLAIN, Y_PADDING_TOP/5);

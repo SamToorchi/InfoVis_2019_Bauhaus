@@ -120,13 +120,6 @@ public class View extends JPanel {
 
             }
 
-            /*
-             * Überschrift
-            font = new Font("Serif", Font.PLAIN, (int)(Y_Label_Abstand/2));
-            g2D.setFont(font);
-            g2D.drawString("Scatter Plot Matrix", (int)(getWidth() * 0.3), (int)(getHeight()* 0.06));
-             */
-
             for (int x = 0; x < Anzahl_Attr; x++){
                 for (int y = 0; y < Anzahl_Attr; y++) {
 
