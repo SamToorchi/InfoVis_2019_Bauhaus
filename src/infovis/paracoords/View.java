@@ -14,20 +14,21 @@ import javax.swing.JPanel;
 public class View extends JPanel {
 	private Model model = null;
 
-	private ArrayList<Integer> axis_x_positions;
-	private ArrayList<Double> axis_x_rel_pos;
+	//private ArrayList<Integer> axis_x_positions;
+	private ArrayList<Double> achse_x_rel_position;
 	private ArrayList<Integer> axis_order;
 	private ArrayList<Boolean> axis_is_ascending;
 
-	private Rectangle2D markerRect = new Rectangle2D.Double(0,0,0,0);
+	private Rectangle2D selektor = new Rectangle2D.Double(0,0,0,0);
 
-	private int AXIS_WIDTH;
-	private int AXIS_HEIGHT;
-	private final double AXIS_RANGE_OFFSET = 0.1; // at each end
-	private int Y_PADDING_TOP;
-	private int Y_PADDING_BOTTOM;
-	private int INVERT_BTN_TOP;
-	private int INVERT_BTN_SIZE;
+	private int Achse_Bereite;
+	private int Achse_Hoehe;
+	//offset der Achse an jedem Ende
+	private final double Achse_offset_end = 0.1; 
+	private int Y_Achse_Padding_top;
+	private int Y_Achse_Padding_bottom;
+	private int Invertierer_button_top;
+	private int Invertierer_button_groesse;
 
 	//Überschreiben der paint-Methoden
 	@Override
@@ -38,51 +39,51 @@ public class View extends JPanel {
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 
 		
-		final int X_PADDING = (int)(getWidth() * 0.1);
-		Y_PADDING_TOP = (int)(getHeight() * 0.15);
-		Y_PADDING_BOTTOM = (int)(getHeight() * 0.1);
-		AXIS_WIDTH = (int)(getWidth() * 0.005);
-		AXIS_HEIGHT = (int)(getHeight() - (Y_PADDING_TOP+Y_PADDING_BOTTOM));
-		INVERT_BTN_SIZE = AXIS_WIDTH*5;
-		INVERT_BTN_TOP = getHeight() - (int)(Y_PADDING_BOTTOM*0.8);
+		final int padding_general = (int)(getWidth() * 0.08);
+		Y_Achse_Padding_top = (int)(getHeight() * 0.2);
+		Y_Achse_Padding_bottom = (int)(getHeight() * 0.2);
+		Achse_Bereite = (int)(getWidth() * 0.005);
+		Achse_Hoehe = (int)(getHeight() - (Y_Achse_Padding_top+Y_Achse_Padding_bottom));
+		Invertierer_button_groesse = Achse_Bereite*8;
+		Invertierer_button_top = getHeight() - (int)(Y_Achse_Padding_bottom*0.8);
 		ArrayList<String> labels = model.getLabels();
-		int NUM_AXES = labels.size();
+		int Anzahl_Achsen = labels.size();
 
-		if(axis_x_rel_pos == null){
-			axis_x_rel_pos = new ArrayList<>();
-			final int AXIS_STEP = (getWidth() - X_PADDING*2 - AXIS_WIDTH) / (NUM_AXES - 1);
-			for (int i = 0; i < NUM_AXES; i++){
-				axis_x_rel_pos.add((X_PADDING+(i*AXIS_STEP))/(double)getWidth() );
+		if(achse_x_rel_position == null){
+			achse_x_rel_position = new ArrayList<>();
+			final int AXIS_STEP = (getWidth() - padding_general*2 - Achse_Bereite) / (Anzahl_Achsen - 1);
+			for (int i = 0; i < Anzahl_Achsen; i++){
+				achse_x_rel_position.add((padding_general+(i*AXIS_STEP))/(double)getWidth() );
 			}
 		}
 		//set initial ascending variables if necessary
 		if (axis_is_ascending == null){
 			axis_is_ascending = new ArrayList<>();
-			for (int i = 0; i < NUM_AXES; i++)
+			for (int i = 0; i < Anzahl_Achsen; i++)
 				axis_is_ascending.add(true);
 		}
 		//update order that parallel axes should be drawn in
-		axis_order = getAxisOrder(axis_x_rel_pos);
+		axis_order = getAxisOrder(achse_x_rel_position);
 		
 		
-		//draw axes and labels
+		//Achsen und Beschreibungen zeichnen
 		ArrayList<Range> ranges = model.getRanges();
-		Font att_font = new Font("Serif", Font.PLAIN, Y_PADDING_TOP/5);
-		Font label_font = new Font("Serif", Font.PLAIN, Y_PADDING_TOP/8);
+		Font att_font = new Font("Serif", Font.BOLD, Y_Achse_Padding_top/10);
+		Font label_font = new Font("Serif", Font.BOLD, Y_Achse_Padding_top/9);
 		g2D.setColor(new Color(0xff333333));
-		for (int i = 0; i < NUM_AXES; i++){
+		for (int i = 0; i < Anzahl_Achsen; i++){
 
 
-			int axis_x = (int)(axis_x_rel_pos.get(i) * getWidth());
-			//axis
-			g2D.setColor(new Color(0xff333333));
-			g2D.fillRect(axis_x, Y_PADDING_TOP, AXIS_WIDTH, AXIS_HEIGHT);
+			int axis_x = (int)(achse_x_rel_position.get(i) * getWidth());
+			//Achsen definieren
+			g2D.setColor(new Color(0xFF7A7A7A));
+			g2D.fillRect(axis_x, Y_Achse_Padding_top, Achse_Bereite, Achse_Hoehe);
 
-			//draw axis title
+			//Beschreibung der Achsen
 			g2D.setFont(att_font);
 			String l = labels.get(i);
 			int width = g.getFontMetrics().stringWidth(l);
-			g2D.drawString(l, axis_x - (width/2), (int)(Y_PADDING_TOP * 0.8));
+			g2D.drawString(l, axis_x - (width/2), (int)(Y_Achse_Padding_top * 0.8));
 
 			//draw axis scale labels
 			g2D.setFont(label_font);
@@ -92,31 +93,31 @@ public class View extends JPanel {
 			int max_w = g.getFontMetrics().stringWidth(max_s);
 			if (axis_is_ascending.get(i)){
 				//draw min at bottom
-				g2D.drawString(min_s, axis_x - (min_w+AXIS_WIDTH),
-						(int)(getHeight() - Y_PADDING_BOTTOM - (AXIS_RANGE_OFFSET*AXIS_HEIGHT*0.7)));
-				g2D.drawString(max_s, axis_x - (max_w+AXIS_WIDTH),
-						(int)(Y_PADDING_TOP + (AXIS_RANGE_OFFSET*AXIS_HEIGHT*0.9)));
+				g2D.drawString(min_s, axis_x - (min_w+Achse_Bereite),
+						(int)(getHeight() - Y_Achse_Padding_bottom - (Achse_offset_end*Achse_Hoehe*0.7)));
+				g2D.drawString(max_s, axis_x - (max_w+Achse_Bereite),
+						(int)(Y_Achse_Padding_top + (Achse_offset_end*Achse_Hoehe*0.9)));
 			}
 			else {
-				g2D.drawString(max_s, axis_x - (max_w+AXIS_WIDTH),
-						(int)(getHeight() - Y_PADDING_BOTTOM - (AXIS_RANGE_OFFSET*AXIS_HEIGHT*0.7)));
-				g2D.drawString(min_s, axis_x - (min_w+AXIS_WIDTH),
-						(int)(Y_PADDING_TOP + (AXIS_RANGE_OFFSET*AXIS_HEIGHT*0.9)));
+				g2D.drawString(max_s, axis_x - (max_w+Achse_Bereite),
+						(int)(getHeight() - Y_Achse_Padding_bottom - (Achse_offset_end*Achse_Hoehe*0.7)));
+				g2D.drawString(min_s, axis_x - (min_w+Achse_Bereite),
+						(int)(Y_Achse_Padding_top + (Achse_offset_end*Achse_Hoehe*0.9)));
 			}
 
-			//draw invert button
-			g2D.setColor(new Color(0xff000099));
-			g2D.fillRoundRect(axis_x - AXIS_WIDTH*2, INVERT_BTN_TOP, INVERT_BTN_SIZE, INVERT_BTN_SIZE,
-					(int)(INVERT_BTN_SIZE*0.2), (int)(INVERT_BTN_SIZE*0.2));
+			//Invertieren Button zeichnen
+			g2D.setColor(new Color((0xFF7A3131)));
+			g2D.fillRoundRect(axis_x - Achse_Bereite*2, Invertierer_button_top, Invertierer_button_groesse, Invertierer_button_groesse,
+					(int)(Invertierer_button_groesse*0.3), (int)(Invertierer_button_groesse*0.3));
 			String arrow;
 			if (axis_is_ascending.get(i))
-				arrow = "^";
+				arrow = "|^|";
 			else
-				arrow = "v";
-			Font arrow_font = new Font("Sans-Serif", Font.PLAIN, (int)(Y_PADDING_TOP/3));
+				arrow = "|v|";
+			Font arrow_font = new Font("Sans-Serif", Font.PLAIN, (int)(Y_Achse_Padding_top/4));
 			g2D.setFont(arrow_font);
 			g2D.setColor(new Color(0xffffff));
-			g2D.drawString(arrow, axis_x - (int)(AXIS_WIDTH*1.7), INVERT_BTN_TOP+INVERT_BTN_SIZE);
+			g2D.drawString(arrow, axis_x - (int)(Achse_Bereite*1.7), Invertierer_button_top+Invertierer_button_groesse);
 
 
 
@@ -132,31 +133,31 @@ public class View extends JPanel {
 			ArrayList<Integer> item_y_points = new ArrayList<>();
 			double [] values = d.getValues();
 			//...calculate the position at which it's line crosses each axis
-			for (int i = 0; i < NUM_AXES; i++){
+			for (int i = 0; i < Anzahl_Achsen; i++){
 
 				int axis_id = axis_order.get(i);
 
-				item_y_points.add(absPointOnRange(values[axis_id], ranges.get(axis_id), AXIS_HEIGHT, axis_is_ascending.get(axis_id)));
+				item_y_points.add(absPointOnRange(values[axis_id], ranges.get(axis_id), Achse_Hoehe, axis_is_ascending.get(axis_id)));
 
 				//then draw line
 				if (i > 0){
 
 					int prev_axis_id = axis_order.get(i-1);
 					g2D.setColor(d.getColor());
-					g2D.drawLine((int)(axis_x_rel_pos.get(prev_axis_id)*getWidth()) + AXIS_WIDTH, item_y_points.get(i-1)+Y_PADDING_TOP,
-							(int)(axis_x_rel_pos.get(axis_id)*getWidth()), item_y_points.get(i)+Y_PADDING_TOP);
+					g2D.drawLine((int)(achse_x_rel_position.get(prev_axis_id)*getWidth()) + Achse_Bereite, item_y_points.get(i-1)+Y_Achse_Padding_top,
+							(int)(achse_x_rel_position.get(axis_id)*getWidth()), item_y_points.get(i)+Y_Achse_Padding_top);
 				}
 			}
 		}
 
-		//draw marker rectangle
-		g2D.setColor(new Color(0xff0066ff));
-		g2D.draw(markerRect);
+		//Zeichne den Selektor
+		g2D.setColor(new Color((0xFF008A00)));
+		g2D.draw(selektor);
 
 	}
 
 	//returns an int describing how many pixels along an axis a value is
-	private Integer absPointOnRange(double value, Range range, int axis_height, boolean ascending){
+	private Integer absPointOnRange(double value, Range range, int Achse_Hoehe, boolean ascending){
 
 
 
@@ -168,29 +169,29 @@ public class View extends JPanel {
 		double norm_pos = (value - range.getMin()) / (range.getMax() - range.getMin());
 
 		//scale and shift to get normalised value within offset range
-		norm_pos = norm_pos * (1.0 - AXIS_RANGE_OFFSET *2);
-		norm_pos += AXIS_RANGE_OFFSET;
+		norm_pos = norm_pos * (1.0 - Achse_offset_end *2);
+		norm_pos += Achse_offset_end;
 
 		//convert to absolute value depending on ascending or descending
 		if (ascending){
-			return (int)((1.0-norm_pos) * axis_height);
+			return (int)((1.0-norm_pos) * Achse_Hoehe);
 		}
 		else {
-			return (int)(norm_pos*axis_height);
+			return (int)(norm_pos*Achse_Hoehe);
 		}
 	}
 
-	public Rectangle2D getMarkerRect(){
-		return markerRect;
+	public Rectangle2D getSelektor(){
+		return selektor;
 	}
-	public void setMarkerRect(int markerStartX, int markerStartY, int draggedToX, int draggedToY) {
+	public void setSelektor(int markerStartX, int markerStartY, int draggedToX, int draggedToY) {
 
 		//if start and dragged are the same, just set w and h as 0
 		if (markerStartX == draggedToX){
-			markerRect = new Rectangle2D.Double(markerStartX, markerStartY,0,0);
+			selektor = new Rectangle2D.Double(markerStartX, markerStartY,0,0);
 		}
 		else {
-			markerRect = new Rectangle2D.Double(markerStartX,markerStartY,
+			selektor = new Rectangle2D.Double(markerStartX,markerStartY,
 					draggedToX-markerStartX, draggedToY-markerStartY);
 		}
 		repaint();
@@ -203,11 +204,11 @@ public class View extends JPanel {
 		ArrayList<Range> permittedRanges = new ArrayList<>();
 
 		//check which axes are intersected by marker
-		for (int i = 0; i < axis_x_rel_pos.size(); i++){
+		for (int i = 0; i < achse_x_rel_position.size(); i++){
 
 			//if intersection between marker and axis...
-			Rectangle2D axis = new Rectangle2D.Double(axis_x_rel_pos.get(i)*getWidth(), Y_PADDING_TOP, AXIS_WIDTH, AXIS_HEIGHT);
-			Rectangle2D intersct = markerRect.createIntersection(axis);
+			Rectangle2D axis = new Rectangle2D.Double(achse_x_rel_position.get(i)*getWidth(), Y_Achse_Padding_top, Achse_Bereite, Achse_Hoehe);
+			Rectangle2D intersct = selektor.createIntersection(axis);
 			if (intersct.getWidth() > 0){
 				//add to list
 				arraysIntersected.add(i);
@@ -251,18 +252,18 @@ public class View extends JPanel {
 	private Range getPermittedRange (int axis_id){
 
 		//calculate allowable range from marker position
-		int axisMin = Y_PADDING_TOP;
-		int axisMax = getHeight() - Y_PADDING_BOTTOM;
-		int markerMin = Math.max(axisMin, (int)markerRect.getY());
-		int markerMax = Math.min(axisMax, (int)(markerRect.getY() + markerRect.getHeight()));
+		int axisMin = Y_Achse_Padding_top;
+		int axisMax = getHeight() - Y_Achse_Padding_bottom;
+		int markerMin = Math.max(axisMin, (int)selektor.getY());
+		int markerMax = Math.min(axisMax, (int)(selektor.getY() + selektor.getHeight()));
 
 		//get min and max on 0-1 scale
-		double markerMin_d = (markerMin-axisMin) / (double)AXIS_HEIGHT;
-		double markerMax_d = (markerMax-axisMin) / (double)AXIS_HEIGHT;
+		double markerMin_d = (markerMin-axisMin) / (double)Achse_Hoehe;
+		double markerMax_d = (markerMax-axisMin) / (double)Achse_Hoehe;
 
 		//scale and shift range to allow for offsets on axes
-		markerMin_d = (markerMin_d - AXIS_RANGE_OFFSET) / (1.0-2*AXIS_RANGE_OFFSET);
-		markerMax_d = (markerMax_d - AXIS_RANGE_OFFSET) / (1.0-2*AXIS_RANGE_OFFSET);
+		markerMin_d = (markerMin_d - Achse_offset_end) / (1.0-2*Achse_offset_end);
+		markerMax_d = (markerMax_d - Achse_offset_end) / (1.0-2*Achse_offset_end);
 
 		//calculate absolute values WRT data range
 		Range wholeRange = model.getRanges().get(axis_id);
@@ -286,32 +287,34 @@ public class View extends JPanel {
 	public int pointSelectsAxis(int x, int y){
 
 		//check y pos
-		if (y < Y_PADDING_TOP || y > (getHeight() - Y_PADDING_BOTTOM)){
+		if (y < Y_Achse_Padding_top || y > (getHeight() - Y_Achse_Padding_bottom)){
 			//y coord out of range of axes
 			return -1;
 		}
 		//check x pos
-		for (int i = 0; i < axis_x_rel_pos.size(); i++){
-			if (x >= axis_x_rel_pos.get(i)*getWidth()
-					&& x <= (axis_x_rel_pos.get(i)*getWidth() + AXIS_WIDTH)){
+		for (int i = 0; i < achse_x_rel_position.size(); i++){
+			if (x >= achse_x_rel_position.get(i)*getWidth()
+					&& x <= (achse_x_rel_position.get(i)*getWidth() + Achse_Bereite)){
 				return i;
 			}
 		}
 		return -1;
 	}
+	
 
+	//Umkehrung der y-Achse
 	public boolean pointInvertsAxis(int x,int y){
 
-		//check y pos
-		if (y < INVERT_BTN_TOP || y > INVERT_BTN_TOP+INVERT_BTN_SIZE)
+		//Überprüfe die Position der Y-Achse
+		if (y < Invertierer_button_top || y > Invertierer_button_top+Invertierer_button_groesse)
 			return false;
 
-		//check x pos
-		for (int i = 0; i < axis_x_rel_pos.size(); i++){
-			int axis_x = (int)(axis_x_rel_pos.get(i) * getWidth());
+		//Überprüfe die Position der X-Achse
+		for (int i = 0; i < achse_x_rel_position.size(); i++){
+			int axis_x = (int)(achse_x_rel_position.get(i) * getWidth());
 
-			if (x >= axis_x - AXIS_WIDTH*2
-					&& x <= axis_x - AXIS_WIDTH*2 + INVERT_BTN_SIZE){
+			if (x >= axis_x - Achse_Bereite*2
+					&& x <= axis_x - Achse_Bereite*2 + Invertierer_button_groesse){
 				axis_is_ascending.set(i, !axis_is_ascending.get(i));
 				repaint();
 				return true;
@@ -323,7 +326,7 @@ public class View extends JPanel {
 	//updates x position of given axis
 	public void moveAxis(int axis_id, int by_x){
 		double rel_change = by_x / (double)getWidth();
-		axis_x_rel_pos.set(axis_id, axis_x_rel_pos.get(axis_id) + rel_change);
+		achse_x_rel_position.set(axis_id, achse_x_rel_position.get(axis_id) + rel_change);
 		repaint();
 	}
 

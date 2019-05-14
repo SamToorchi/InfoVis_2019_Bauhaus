@@ -34,7 +34,7 @@ public class MouseController implements MouseListener, MouseMotionListener {
 		int x = e.getX();
 		int y = e.getY();
 
-		//check if 'button' is being clicked
+		//Überprüfe ob einen Button gedruckt wurde
 		if (view.pointInvertsAxis(x,y))
 			return;
 
@@ -47,7 +47,7 @@ public class MouseController implements MouseListener, MouseMotionListener {
 		else {
 			//if not, start marker draw
 			drawingMarker = true;
-			view.setMarkerRect(x,y,x,y);
+			view.setSelektor(x,y,x,y);
 		}
 
 	}
@@ -61,7 +61,7 @@ public class MouseController implements MouseListener, MouseMotionListener {
 			//check bounds?
 			drawingMarker = false;
 			view.brushAndLink();
-			view.setMarkerRect(0,0,0,0);
+			view.setSelektor(0,0,0,0);
 		}
 
 
@@ -80,7 +80,7 @@ public class MouseController implements MouseListener, MouseMotionListener {
 		}
 		else if (drawingMarker){
 
-			view.setMarkerRect((int)(view.getMarkerRect().getX()), (int)(view.getMarkerRect().getY()),
+			view.setSelektor((int)(view.getSelektor().getX()), (int)(view.getSelektor().getY()),
 					x,y);
 		}
 
