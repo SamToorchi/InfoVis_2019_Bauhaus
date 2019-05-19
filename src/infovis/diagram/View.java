@@ -26,10 +26,13 @@ public class View extends JPanel{
 	private double selectorTranslateY=0;
 	private Rectangle2D selector = new Rectangle2D.Double(selectorTranslateX,selectorTranslateY,0,0);
 	private Rectangle2D overviewRect = new Rectangle2D.Double();
+	private boolean fisheye;
 
 
 
-
+	public void setFisheye(boolean shouldSetFisheye){
+		fisheye = shouldSetFisheye;
+	}
 	public Model getModel() {
 		return model;
 	}
@@ -50,6 +53,12 @@ public class View extends JPanel{
 		// Anti-Aliasing for Border of Circles
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		g2D.clearRect(0, 0, getWidth(), getHeight());
+		
+		if (fisheye){
+
+			paintDiagram(g2D);
+		}
+		else{
 
 			//main diagram
 			g2D.translate(translateX,translateY);
@@ -114,6 +123,8 @@ public class View extends JPanel{
 						selector.getWidth() + selectorBoxStroke, selector.getHeight() + selectorBoxStroke));
 
 			}
+			
+		}
 			
 		}
 

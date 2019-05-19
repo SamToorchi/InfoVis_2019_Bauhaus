@@ -7,6 +7,7 @@ import infovis.diagram.elements.Element;
 import infovis.diagram.elements.GroupingRectangle;
 import infovis.diagram.elements.None;
 import infovis.diagram.elements.Vertex;
+import infovis.diagram.layout.Fisheye;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -28,8 +29,8 @@ public class MouseController implements MouseListener,MouseMotionListener {
 	 private GroupingRectangle groupRectangle;
 	 private boolean movingSelector = false;
      private boolean movingOverview = false;
-
-
+     private boolean fisheyeMode;
+     private Fisheye fisheye;
 	// Getter And Setter Methods
 	 public Element getSelectedElements(){
 		 return selectedElements;
@@ -190,6 +191,13 @@ public class MouseController implements MouseListener,MouseMotionListener {
 		int x = event.getX();
 		int y = event.getY();
 		double scale = view.getScale();
+		
+		if (fisheyeMode){
+			fisheye.setMouseCoords(x,y,view);
+			view.setModel(fisheye.transform(model, view));
+			view.repaint();
+			return;
+		}
 
 		if (movingSelector){
 		    //update position of Selector
@@ -223,6 +231,27 @@ public class MouseController implements MouseListener,MouseMotionListener {
 	public void setDrawingEdges(boolean drawingEdges) {
 		this.drawEdgesMode = drawingEdges;
 	}
+	
+	public void setFisheyeMode(boolean b) {
+		fisheyeMode = b;
+		if (b){
+			Debug.p("new Fisheye Layout");
+
+			//handle fish eye initial call
+			fisheye = new Fisheye(view.getWidth()/2, view.getHeight()/2);
+			view.setFisheye(true);
+		    view.setModel(fisheye.transform(model, view));
+
+			view.repaint();
+		} else {
+			Debug.p("new Normal Layout");
+			view.setFisheye(false);
+			fisheye = null;
+			view.setModel(model);
+			view.repaint();
+		}
+	}
+
 	
 	
 	/*

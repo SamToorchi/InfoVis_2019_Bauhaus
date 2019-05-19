@@ -73,4 +73,14 @@ public class MenuController {
 	public void stopEdgeDrawingMode() {
 		mouseControllerAddedToView.setDrawingEdges(false);
 	}
+	public void startFisheyeMode(){
+		//view.setModel(model.getModel(new Fisheye(), view));
+		mouseControllerAddedToView.setFisheyeMode(true);
+		//view.repaint();
+	}
+	public void stopFisheyeMode(){
+		//view.setModel(view.getModel().getBackModel());
+		mouseControllerAddedToView.setFisheyeMode(false);
+		//view.repaint();
+	}
 }
