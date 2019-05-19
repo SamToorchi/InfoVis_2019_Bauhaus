@@ -38,7 +38,7 @@ public class MouseController implements MouseListener, MouseMotionListener {
 		if (view.pointInvertsAxis(x,y))
 			return;
 
-		//check if point is contained by axis
+		//Überprüfe ob der Punkt in der Achse enthalten ist
 		movingAxis = view.pointSelectsAxis(x,y);
 		if (movingAxis >= 0){
 			X_mouse_ref = x;
@@ -75,7 +75,7 @@ public class MouseController implements MouseListener, MouseMotionListener {
 
 		if (movingAxis >= 0) {
 
-			view.moveAxis(movingAxis, x - X_mouse_ref);
+			view.moveAchse(movingAxis, x - X_mouse_ref);
 			X_mouse_ref = x;
 		}
 		else if (drawingMarker){
